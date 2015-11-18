@@ -7,7 +7,7 @@
 ---
 ## TODO
 + 一周内
- + 移除mysql_connect相关函数，使用PDO
+ + 移除mysql\_connect相关函数，使用PDO
 ---
 ## 开发日志
 + 2015.11.18
