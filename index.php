@@ -1,7 +1,7 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-11-18 12:45:23
-        Filename: index.php
+        Last modified: 2015-11-18 20:40:19
+        Filename: ../index.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
 <?php
@@ -11,7 +11,12 @@
 
 	//默认路由规则
 	Alxw::getInstance()->Router()->add('default', function () {
-			echo '<center><h1>Hello, Alxw !</h1></center>';
+			Alxw::getInstance()->ClassLoader('FNF');
+		});
+
+	//首页路由规则
+	Alxw::getInstance()->Router()->add('/', function () {
+			Alxw::getInstance()->ClassLoader('Index');
 		});
 
 	//phpinfo规则

@@ -1,10 +1,11 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-11-18 12:36:38
-        Filename: Library/Router.class.php
+        Last modified: 2015-11-18 17:04:54
+        Filename: Router.class.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
 <?php
+
 	class Router {
 	
 		private $method;
@@ -37,8 +38,15 @@
 				}
 			}
 			if(!$is_match)
-				$this->rules['default']();
+			{
+				$arr = explode('/', $this->url);
+				if ($arr[1] === 'Activity' && isset($arr[2]))
+					Alxw::getInstance()->ClassLoader($arr[2]);
+				else
+					$this->rules['default']();
+			}
 		}
 
 	}
+
 ?>

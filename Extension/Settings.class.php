@@ -1,18 +1,13 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-11-18 20:31:55
-        Filename: Misc.class.php
+        Last modified: 2015-11-18 16:58:32
+        Filename: Settings.class.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
 <?php
 
-	class Misc {
-
-		public function __construct()
-		{
-			//TODO
-		}
-
+	class Settings {
+		//TODO
 	}
 
 ?>

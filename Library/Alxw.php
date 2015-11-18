@@ -1,6 +1,6 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-11-18 12:44:32
+        Last modified: 2015-11-18 20:33:03
         Filename: Alxw.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
@@ -73,6 +73,24 @@
 			if (!$this->r)
 				$this->r = new R();
 			return $this->r;
+		}
+
+		//载入额外扩展
+		public function extend($mod)
+		{
+			if (isset($this->$mod))
+				return;
+			if (file_exists(dirname(__FILE__).'/../Extension/'.$mod.'.class.php'))
+				require_once(dirname(__FILE__).'/../Extension/'.$mod.'.class.php');
+			$this->$mod = new $mod();
+		}
+
+		//载入Class
+		public function CLassLoader($class)
+		{
+			if (file_exists(dirname(__FILE__).'/../Class/'.$class.'.class.php'))
+				require_once(dirname(__FILE__).'/../Class/'.$class.'.class.php');
+			new $class();
 		}
 
 	}
