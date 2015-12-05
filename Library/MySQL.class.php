@@ -1,7 +1,7 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-11-18 11:52:56
-        Filename: Library/MySQL.class.php
+        Last modified: 2015-12-06 03:20:24
+        Filename: ../Library/MySQL.class.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
 <?php
@@ -20,30 +20,20 @@
 		private $query_result = "";
 		public function __construct($host = false, $user = false, $pass = false, $name = false)
 		{
-			global $Config, $sql;
+			global $Config;
 			$host = $host?$host:$Config['DB_HOST'];
 			$user = $user?$user:$Config['DB_USER'];
 			$pass = $pass?$pass:$Config['DB_PASS'];
 			$name = $name?$name:$Config['DB_NAME'];
-			if (
-				$host == $Config['DB_HOST'] &&
-				$user == $Config['DB_USER'] &&
-				$pass == $Config['DB_PASS'] &&
-				$name == $Config['DB_NAME'])
-			$this->sql = &$sql;
-				else
-			$this->sql = mysql_connect($host, $user, $pass);
-			if ($this->sql == NULL)
-				$this->sql = mysql_connect($host, $user, $pass);
-			mysql_select_db($name, $this->sql);
+			$this->sql = new PDO('mysql:host='.str_replace($Config['DB_HOST'], ':', ';port=').';dbname='.$Config['DB_NAME'], $Config['DB_USER'], $Config['DB_PASS']);
 		}
 		public function num_rows()
 		{
-			return mysql_num_rows($this->query_result);
+			return count($this->fetch_all());
 		}
 		public function error()
 		{
-			return mysql_error($this->sql);
+			return $this->query_result->errorInfo();
 		}
 		public function from($table)
 		{
@@ -67,7 +57,7 @@
 		}
 		public function select($select = "*")
 		{
-			$this->query_result = mysql_query("SELECT ".$select." ".implode(" ", $this->query_command), $this->sql);
+			$this->query_result = $this->sql->query("SELECT ".$select." ".implode(" ", $this->query_command));
 			$this->query_command = array(
 					"from" => "",
 					"where" => "",
@@ -78,7 +68,7 @@
 		}
 		public function delete($delete = "")
 		{
-			$this->query_result = mysql_query("DELETE ".implode(" ", $this->query_command), $this->sql);
+			$this->query_result = $this->sql->query("DELETE ".implode(" ", $this->query_command));
 			$this->query_command = array(
 					"from" => "",
 					"where" => "",
@@ -89,7 +79,7 @@
 		}
 		public function query($cmd)
 		{
-			$this->query_result = mysql_query($cmd, $this->sql);
+			$this->query_result = $this->sql->query($cmd);
 			return $this;
 		}
 		public function fetch_one()
@@ -99,10 +89,7 @@
 		}
 		public function fetch_all()
 		{
-			$ret = array();
-			while($row = mysql_fetch_array($this->query_result))
-				$ret[] = $row;
-			return $ret;
+			return $this->query_result->fetchAll();
 		}
 		public function value($arr)
 		{
@@ -121,7 +108,7 @@
 			foreach ($this->insert_command as $key => $val)
 				$tmp_arr[] = "'".$val."'";
 			$str .= implode(", ", $tmp_arr).")";
-			$this->query_result = mysql_query($str, $this->sql);
+			$this->query_result = $this->sql->query($str);
 			return $this;
 		}
 		public function struct($arr)
@@ -137,7 +124,7 @@
 			foreach ($this->table_struct as $key => $val)
 				$tmp_arr[] = "`".$key."` ".$val;
 			$str .= implode(", ", $tmp_arr).") DEFAULT CHARSET = UTF8;";
-			$this->query_result = mysql_query($str, $this->sql);
+			$this->query_result = $this->sql->query($str);
 			return $this;
 		}
 		public function set($arr)
@@ -153,7 +140,7 @@
 			foreach ($this->update_command as $key => $val)
 				$tmp_arr[] = "`".$key."` = '".$val."'";
 			$str .= implode(", ", $tmp_arr).$this->query_command['where'];
-			$this->query_result = mysql_query($str, $this->sql);
+			$this->query_result = $this->sql->query($str);
 			$this->query_command = array(
 					"from" => "",
 					"where" => "",
@@ -170,19 +157,19 @@
 		public function add($key, $type = "longtext")
 		{
 			$str = "alter table ".$this->table_change." add ".$key." ".$type.";";
-			$this->query_result = mysql_query($str, $this->sql);
+			$this->query_result = $this->sql->query($str);
 			return $this;
 		}
 		public function modify($o_key, $n_key, $type = "longtext")
 		{
 			$str = "alter table ".$this->table_change." change ".$o_key." ".$n_key." ".$type.";";
-			$this->query_result = mysql_query($str, $this->sql);;
+			$this->query_result = $this->sql->query($str);;
 			return $this;
 		}
 		public function drop($key)
 		{
 			$str = "alter table ".$this->table_change." drop column ".$key.";";
-			$this->query_result = mysql_query($str, $this->sql);
+			$this->query_result = $this->sql->query($str);
 			return $this;
 		}
 	}

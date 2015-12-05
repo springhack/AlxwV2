@@ -1,7 +1,7 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-11-18 20:49:57
-        Filename: FNF.class.php
+        Last modified: 2015-11-26 20:09:27
+        Filename: Class/FNF.class.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
 <?php
