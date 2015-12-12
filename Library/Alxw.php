@@ -1,6 +1,6 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-12-06 03:11:53
+        Last modified: 2015-12-12 15:17:23
         Filename: Alxw.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
@@ -41,6 +41,15 @@
 		public function __clone()
 		{
 			trigger_error('Denied to clone!', E_USER_ERROR);
+		}
+
+		//自动加载额外扩展
+		public function __call($m, $a)
+		{
+			$this->extend($m);
+			if (isset($this->$m))
+				return $this->$m;
+			return false;
 		}
 
 		//获取实例

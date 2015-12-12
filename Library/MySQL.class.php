@@ -1,6 +1,6 @@
 <?php /**
         Author: SpringHack - springhack@live.cn
-        Last modified: 2015-12-06 03:20:24
+        Last modified: 2015-12-12 15:35:44
         Filename: ../Library/MySQL.class.php
         Description: Created by SpringHack using vim automatically.
 **/ ?>
